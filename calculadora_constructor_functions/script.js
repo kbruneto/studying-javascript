@@ -1,49 +1,34 @@
-const criaCalculadora = () => {
-  return {
-    display: document.querySelector(".display"),
+function Calculadora() {
+  this.display = document.querySelector(".display");
 
-    inicia() {
-      this.cliqueBotoes();
-    },
+  this.inicia = () => {
+    const realizaConta = () => {
+      try {
+        const conta = eval(this.display.value);
+        this.display.value = conta;
+      } catch (error) {
+        alert("Conta invalida!");
+      }
+    };
 
-    cliqueBotoes() {
-      document.addEventListener("click", (e) => {
-        const el = e.target;
+    document.addEventListener("keypress", (e) => {
+      if (e.keyCode == 13) realizaConta();
+    });
 
-        if (el.classList.contains("btn-num")) {
-          this.btnParaDisplay(el.innerText);
-        }
+    document.addEventListener("click", (e) => {
+      const el = e.target;
 
-        if (el.classList.contains("btn-clear")) {
-          this.display.value = "";
-        }
-
-        if (el.classList.contains("btn-del")) {
-          this.display.value = this.display.value.slice(0, -1);
-        }
-
-        if (el.classList.contains("btn-eq")) {
-          let conta = this.display.value;
-
-          try {
-            conta = eval(conta);
-            if (!conta) {
-              alert("Conta invalida!");
-            } else {
-              this.display.value = conta;
-            }
-          } catch (e) {
-            alert("Conta invalida!");
-          }
-        }
-      });
-    },
-
-    btnParaDisplay(valor) {
-      this.display.value += valor;
-    },
+      if (el.classList.contains("btn-num")) {
+        this.display.value += el.innerText;
+        this.display.focus();
+      }
+      if (el.classList.contains("btn-clear")) this.display.value = "";
+      if (el.classList.contains("btn-del"))
+        this.display.value = this.display.value.slice(0, -1);
+      if (el.classList.contains("btn-eq")) realizaConta();
+    });
   };
-};
+}
 
-const calculadora = criaCalculadora();
+const calculadora = new Calculadora();
 calculadora.inicia();
