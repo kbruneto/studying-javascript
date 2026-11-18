@@ -24,3 +24,17 @@ const g1 = geradora();
 for (let valor of g1) {
   console.log(valor);
 }
+
+function* teste1() {
+  yield "olá";
+}
+
+function* teste2() {
+  yield teste1().next().value;
+  yield "tudo bem?";
+}
+
+test = teste2();
+
+console.log(test.next().value);
+console.log(test.next().value);
